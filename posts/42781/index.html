@@ -4,8 +4,16 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="关于, xuanyi">
-    <meta name="description" content="知足且上进，温柔且坚定">
+    <meta name="keywords" content="python批量下载PDF, xuanyi">
+    <meta name="description" content="python爬虫批量下载PDF运行环境为python3.7
+
+代码如下：# -*- coding:UTF-8 -*-
+import urllib.request
+import re
+import os
+
+# 读取html内容
+headers">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -17,7 +25,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>关于 | xuanyi</title>
+    <title>python批量下载PDF | xuanyi</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.min.css">
@@ -319,12 +327,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/5.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/22.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">about</h1>
+                    <h1 class="description center-align post-title">python批量下载PDF</h1>
                 </div>
             </div>
         </div>
@@ -438,12 +446,25 @@
             <div class="row tag-cate">
                 <div class="col s7">
                     
-                          <div class="article-tag">
-                            <span class="chip bg-color">无标签</span>
-                          </div>
+                    <div class="article-tag">
+                        
+                            <a href="/tags/python/">
+                                <span class="chip bg-color">python</span>
+                            </a>
+                        
+                    </div>
                     
                 </div>
                 <div class="col s5 right-align">
+                    
+                    <div class="post-cate">
+                        <i class="fas fa-bookmark fa-fw icon-category"></i>
+                        
+                            <a href="/categories/python/" class="post-category">
+                                python
+                            </a>
+                        
+                    </div>
                     
                 </div>
             </div>
@@ -452,7 +473,7 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2022-03-27
+                    2022-04-02
                 </div>
                 
 
@@ -461,7 +482,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    0
+                    537
                 </div>
                 
 
@@ -486,7 +507,80 @@
 
         <div class="card-content article-card-content">
             <div id="articleContent">
-                
+                <h2 id="python爬虫批量下载PDF"><a href="#python爬虫批量下载PDF" class="headerlink" title="python爬虫批量下载PDF"></a>python爬虫批量下载PDF</h2><p>运行环境为python3.7</p>
+<span id="more"></span>
+<h5 id="代码如下："><a href="#代码如下：" class="headerlink" title="代码如下："></a>代码如下：</h5><pre class="line-numbers language-python" data-language="python"><code class="language-python"># -*- coding:UTF-8 -*-
+import urllib.request
+import re
+import os
+
+# 读取html内容
+headers &#x3D; &#123;&#39;User-Agent&#39;: &#39;User-Agent:Mozilla&#x2F;5.0&#39;&#125;
+def getHtml(url):
+    pl &#x3D; urllib.request.Request(url,headers&#x3D;headers)
+    page &#x3D; urllib.request.urlopen(pl)
+    html &#x3D; page.read()
+    page.close()
+    return html
+  
+# 获取下载地址
+def getUrl(html):
+    # reg &#x3D; r&#39;&lt;a[^&gt;]*href&#x3D;[&quot;]([^&quot;]+\.(?:pdf))[&quot;][^&gt;]*&gt;(.*?)&lt;\&#x2F;a&gt;&#39;
+    #正则表达式匹配href为pdf后缀且标签内不含有img标签的所有a标签
+    reg &#x3D; r&#39;&lt;a[^&gt;]*href&#x3D;[&quot;]([^&quot;]+\.(?:pdf))[&quot;][^&gt;]*&gt;([^&lt;img]+.*?)&lt;\&#x2F;a&gt;&#39;
+    url_re &#x3D; re.compile(reg)
+    #将匹配pdf路径和文件名的元组存到list中
+    url_lst &#x3D; re.findall(url_re,html.decode(&#39;utf-8&#39;))
+    return url_lst
+    
+# 下载PDF
+def getFile(url,name):
+    url &#x3D; urllib.request.Request(url,headers&#x3D;headers)
+    content &#x3D; urllib.request.urlopen(url)
+    
+    f &#x3D; open(name + &#39;.pdf&#39;,&#39;wb&#39;)
+    block_sz &#x3D; 8192
+    while True:
+        buffer &#x3D; content.read(block_sz)
+        if not buffer:
+              break
+        
+        f.write(buffer)
+    f.close()
+    print (&quot;Sucessful to download&quot; + &quot; &quot; + name)
+
+# 文件的根路径    
+root_url &#x3D; &quot;http:&#x2F;&#x2F;www.hengansl.com&quot;
+# 页面地址
+raw_url &#x3D; &quot;http:&#x2F;&#x2F;www.hengansl.com&#x2F;eportal&#x2F;ui?pageId&#x3D;9dc80fdcfc33485283acea2ea6e3b31c&amp;currentPage&#x3D;1&amp;moduleId&#x3D;db83c25612f043c8a68b7255a293d261&quot;
+
+html &#x3D; getHtml(raw_url)
+url_lst &#x3D; getUrl(html)
+
+os.mkdir(&quot;pdf_download2&quot;)
+os.chdir(os.path.join(os.getcwd(),&#39;pdf_download2&#39;))
+
+for url in url_lst[:]:
+    pdfUrl &#x3D; url[0].split(&#39;&#x3D;&#39;)
+    pdfUrl &#x3D; root_url + pdfUrl[len(pdfUrl)-1]
+    getFile(pdfUrl,url[1])
+</code></pre>
+<h5 id="页面结构如下"><a href="#页面结构如下" class="headerlink" title="页面结构如下:"></a>页面结构如下:</h5><img src="/posts/42781/link.png" class title="匹配的a标签">
+<p>正则表达式中需要过滤掉包含img的a标签，否则getFile中文件名称是错误的。</p>
+<img src="/posts/42781/link2.png" class title="需过滤的a标签">
+
+<hr>
+<h2 id="python2升级python3"><a href="#python2升级python3" class="headerlink" title="python2升级python3"></a>python2升级python3</h2><p>另附mac系统python2.7.16升级为3.7.9过程</p>
+<h6 id="1-python官网下载对应版本的安装包"><a href="#1-python官网下载对应版本的安装包" class="headerlink" title="1. python官网下载对应版本的安装包"></a>1. python官网下载对应版本的安装包</h6><p><a target="_blank" rel="noopener" href="https://www.python.org/downloads/">https://www.python.org/downloads/</a></p>
+<h6 id="2-安装python"><a href="#2-安装python" class="headerlink" title="2. 安装python"></a>2. 安装python</h6><p>默认安装在&#x2F;Library&#x2F;Frameworks&#x2F;Python.framework&#x2F;Versions下</p>
+<h6 id="3-修改profile文件，指向新版本python"><a href="#3-修改profile文件，指向新版本python" class="headerlink" title="3. 修改profile文件，指向新版本python"></a>3. 修改profile文件，指向新版本python</h6><ul>
+<li>在终端中输入：<pre class="line-numbers language-none"><code class="language-none">$ open ~&#x2F;.bash_profile</code></pre></li>
+<li>弹出.bash_profile文件，在该文件的最后面添加以下代码:<pre class="line-numbers language-none"><code class="language-none">alias python&#x3D;&quot;&#x2F;Library&#x2F;Frameworks&#x2F;Python.framework&#x2F;Versions&#x2F;3.7&#x2F;bin&#x2F;python3.7&quot;</code></pre></li>
+<li>终端输入如下命令，使修改的初始化文件生效：<pre class="line-numbers language-none"><code class="language-none">$ source ~&#x2F;.bash_profile</code></pre></li>
+<li>验证python版本：<pre class="line-numbers language-none"><code class="language-none">$ python -V</code></pre>
+如果版本号仍显示2.7.16，则可尝试如下命令查看：<pre class="line-numbers language-none"><code class="language-none">$ python3 -V</code></pre></li>
+</ul>
+
                 
             </div>
             <hr/>
@@ -512,7 +606,7 @@
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="http://example.com/about/index.html">http://example.com/about/index.html</a>
+                    <a href="http://example.com/posts/42781/">http://example.com/posts/42781/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -549,7 +643,11 @@
                 <div class="post-meta__tag-list" style="display: inline-block;">
                     
                         <div class="article-tag">
-                            <span class="chip bg-color">无标签</span>
+                            
+                                <a href="/tags/python/">
+                                    <span class="chip bg-color">python</span>
+                                </a>
+                            
                         </div>
                     
                 </div>
@@ -726,34 +824,46 @@
                 <i class="far fa-dot-circle"></i>&nbsp;本篇
             </div>
             <div class="card">
-                <a href="/about/index.html">
+                <a href="/posts/42781/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/5.jpg" class="responsive-img" alt="about">
+                        <img src="/medias/featureimages/22.jpg" class="responsive-img" alt="python批量下载PDF">
                         
-                        <span class="card-title">about</span>
+                        <span class="card-title">python批量下载PDF</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            
+                            python爬虫批量下载PDF运行环境为python3.7
                         
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2022-03-27
+                                <i class="far fa-clock fa-fw icon-date"></i>2022-04-02
                             </span>
                         <span class="publish-author">
                             
-                            <i class="fas fa-user fa-fw"></i>
-                            xuanyi
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/python/" class="post-category">
+                                    python
+                                </a>
+                            
                             
                         </span>
                     </div>
                 </div>
 
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/python/">
+                        <span class="chip bg-color">python</span>
+                    </a>
+                    
+                </div>
                 
             </div>
         </div>
@@ -761,22 +871,22 @@
         
         <div class="article col s12 m6" data-aos="fade-up">
             <div class="article-badge right-badge text-color">
-                本篇&nbsp;<i class="far fa-dot-circle"></i>
+                下一篇&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/about/index.html">
+                <a href="/posts/37585/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/5.jpg" class="responsive-img" alt="about">
+                        <img src="/medias/featureimages/0.jpg" class="responsive-img" alt="MacOs安装Linux虚拟机">
                         
-                        <span class="card-title">about</span>
+                        <span class="card-title">MacOs安装Linux虚拟机</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            
+                            Parallels安装linux操作系统Centos 7
                         
                     </div>
                     <div class="publish-info">
@@ -791,7 +901,18 @@
                         </span>
                     </div>
                 </div>
-
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/Linux/">
+                        <span class="chip bg-color">Linux</span>
+                    </a>
+                    
+                    <a href="/tags/MacOS/">
+                        <span class="chip bg-color">MacOS</span>
+                    </a>
+                    
+                </div>
                 
             </div>
         </div>
